@@ -5,11 +5,8 @@ class Solution {
     static int N, M;
     static int[][] map;
     static int[][] distance;
-    static int[] dx = {0, 1, -1, 0}; // 우하상좌
+    static int[] dx = {0, 1, -1, 0};
     static int[] dy = {1, 0, 0, -1};
-    
-    // static int[] dx = {-1, 1, 0, 0}; // 상하좌우
-    // static int[] dy = {0, 0, -1, 1};
     
     public int solution(int[][] maps) {
         N = maps.length;
@@ -44,6 +41,5 @@ class Solution {
                 }
             }
         }
-        
     }
 }
