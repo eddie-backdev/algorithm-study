@@ -1,43 +1,50 @@
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class Main {
-    static int K;
-    static int[] inorder;
-    static List<List<Integer>> levels;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        K = sc.nextInt();
-        int N = (int) Math.pow(2, K) - 1;
-        inorder = new int[N];
-        levels = new ArrayList<>();
+    static int depth;
+    static int[] input;
+    static List<List<Integer>> answer;
 
-        for (int i = 0; i < K; i++) {
-            levels.add(new ArrayList<>());
-        }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        depth = Integer.parseInt(br.readLine());
+        int N = (int) Math.pow(2, depth) - 1;
+        input = new int[N];
+        answer = new ArrayList<>();
 
+        StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
-            inorder[i] = sc.nextInt();
+            input[i] = Integer.parseInt(st.nextToken());
         }
 
-        buildTree(0, N - 1, 0);
+        for (int i = 0; i < depth; i++) {
+            answer.add(new ArrayList<>());
+        }
 
-        for (List<Integer> level : levels) {
-            for (int node : level) {
-                System.out.print(node + " ");
+        search(0, N - 1, 0);
+        for (List<Integer> e : answer) {
+            for (Integer ans : e) {
+                System.out.print(ans + " ");
             }
             System.out.println();
         }
     }
 
-    static void buildTree(int left, int right, int depth) {
-        if (left > right) return;
+    private static void search(int l, int r, int depth) {
+        if (l > r) {
+            return;
+        }
 
-        int mid = (left + right) / 2;
-        levels.get(depth).add(inorder[mid]);
+        int mid = (l + r) / 2;
+        answer.get(depth).add(input[mid]);
 
-        buildTree(left, mid - 1, depth + 1);
-
-        buildTree(mid + 1, right, depth + 1);
+        search(l,mid-1,depth+1);
+        search(mid + 1, r, depth + 1);
     }
 }
