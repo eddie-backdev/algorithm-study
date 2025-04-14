@@ -8,6 +8,7 @@ class Solution {
                 // i = 0;
         	}
         }
+        
         return Integer.parseInt(s);
 
     }
