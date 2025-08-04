@@ -1,43 +1,41 @@
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 class Solution {
-    static int N, M;
-    static int[][] map;
-    static int[][] distance;
-    static int[] dx = {0, 1, -1, 0};
-    static int[] dy = {1, 0, 0, -1};
+    
+    int[] dx = {0, 1, -1, 0};
+    int[] dy = {1, 0, 0, -1};
     
     public int solution(int[][] maps) {
-        N = maps.length;
-        M = maps[0].length;
-        map = maps;
-        distance = new int[N][M];
-        
-        bfs(0,0);
-        int answer = distance[N-1][M-1];
-        if (answer == 0) return -1;
+        int[][] visited = new int[maps.length][maps[0].length];
+        bfs(maps, visited);
+        int answer = visited[maps.length - 1][maps[0].length - 1];
+        if (answer == 0) {
+            return -1;
+        }
         return answer;
     }
     
-    void bfs(int x, int y) {
+    void bfs(int[][] maps, int[][] visited) {
         Queue<int[]> q = new LinkedList<>();
-        q.offer(new int[]{x, y});
-        distance[x][y] = 1;
+        q.add(new int[]{0, 0});
+        visited[0][0] = 1;
         
-        while (!q.isEmpty()) {
+        while(!q.isEmpty()) {
             int[] current = q.poll();
-            int cx = current[0];
-            int cy = current[1];
+            int x = current[0];
+            int y = current[1];
             
             for (int i = 0; i < 4; i++) {
-                int nx = cx + dx[i];
-                int ny = cy + dy[i];
-                if (nx >= 0 && nx < N && ny >= 0 && ny < M) {
-                    if (map[nx][ny] == 1 && distance[nx][ny] == 0) {
-                        q.offer(new int[]{nx, ny});
-                        distance[nx][ny] = distance[cx][cy] + 1;
-                    }
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                
+                if (nx < 0 || nx > maps.length - 1 || ny < 0 || ny > maps[0].length - 1) {
+                    continue;
+                }
+                
+                if (visited[nx][ny] == 0 && maps[nx][ny] == 1) {
+                    visited[nx][ny] = visited[x][y] + 1;
+                    q.add(new int[]{nx, ny});
                 }
             }
         }
