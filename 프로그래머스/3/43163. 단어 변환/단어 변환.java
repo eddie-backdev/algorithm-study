@@ -1,39 +1,45 @@
+import java.util.*;
+
 class Solution {
-    static boolean[] visited;
-    static int answer = 0;
-    
     public int solution(String begin, String target, String[] words) {
-        visited = new boolean[words.length];
-        
-        dfs(begin, target, words, 0);
-        
-        return answer;
-    }
-    
-    public static void dfs(String begin, String target, String[] words, int cnt) {
-        if (begin.equals(target)) {
-            answer = cnt;
-            return;
-        }
-        
-        for (int i = 0; i < words.length; i++) {
-            if (visited[i]) {
-                continue;
+        boolean[] visited = new boolean[words.length];
+        Queue<Word> q = new LinkedList<>();
+        q.offer(new Word(begin, 0));
+        while (!q.isEmpty()) {
+            Word current = q.poll();
+            
+            if (current.word.equals(target)) {
+                return current.count;
             }
             
-            int k = 0;
-            for (int j = 0; j < begin.length(); j++) {
-                if (begin.charAt(j) == words[i].charAt(j)) {
-                    k++;
+            for (int i = 0; i < words.length; i++) {
+                if (!visited[i] && checkWord(current.word, words[i])) {
+                    visited[i] = true;
+                    q.offer(new Word(words[i], current.count + 1));
                 }
             }
-            
-            if (k == begin.length() - 1) {
-                visited[i] = true;
-                dfs(words[i], target, words, cnt + 1);
-                visited[i] = false;
-            }
         }
+        return 0;
+    }
+    
+    public boolean checkWord(String current, String next) {
+        int diff = 0;
+        for (int i = 0; i < current.length(); i++) {
+            if (current.charAt(i) != next.charAt(i)) {
+                diff++;
+            }
+            if (diff > 1) return false;
+        }
+        return diff == 1;
+    }
+    
+    static class Word {
+        String word;
+        int count;
         
+        Word(String word, int count) {
+            this.word = word;
+            this.count = count;
+        }
     }
 }
