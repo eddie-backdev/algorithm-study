@@ -1,6 +1,6 @@
 class Solution {
     public String solution(String s, int n) {
-        String answer = "";
+        StringBuilder sb = new StringBuilder();
         
         for(int i=0; i<s.length(); i++) {
             char ch = s.charAt(i);
@@ -11,9 +11,9 @@ class Solution {
                 ch = (char) ((ch - 'A' + n) % 26 + 'A');
             }
               
-            answer += ch;
+            sb.append(ch);;
           }
         
-        return answer;
+        return sb.toString();
     }
 }
