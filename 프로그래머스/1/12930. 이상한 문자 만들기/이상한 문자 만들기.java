@@ -1,25 +1,24 @@
 class Solution {
     public String solution(String s) {
-        String answer = "";
-        
-        s = s.toLowerCase();
-        
-        String[] sArr = s.split("");
-        
-        int key = 0;
-        
-        for(int i = 0; i < sArr.length; i++) {
-            if(key % 2 == 0) {
-                sArr[i] = sArr[i].toUpperCase();
-            }
+        StringBuilder sb = new StringBuilder();
+        int cnt = 0;
 
-            if(sArr[i].isBlank()) {
-                key = -1;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            if (c == ' ') {
+                sb.append(' ');
+                cnt = 0;
+            } else {
+                if (cnt % 2 == 0) {
+                    sb.append(Character.toUpperCase(c));
+                } else {
+                    sb.append(Character.toLowerCase(c));
+                }
+                cnt++;
             }
-            answer += sArr[i];
-            key++;
         }
         
-        return answer;
+        return sb.toString();
     }
 }
