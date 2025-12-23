@@ -1,11 +1,11 @@
 class Solution {
     public int solution(String myString, String pat) {
         int answer = 0;
+        int idx = 0;
         
-        for (int i = 0; i < myString.length(); i++) {
-            if (myString.startsWith(pat, i)) {
-                answer++;
-            }
+        while ((idx = myString.indexOf(pat, idx)) != -1) {
+            answer++;
+            idx += 1;
         }
         
         return answer;
