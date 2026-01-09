@@ -1,9 +1,9 @@
 import java.util.Set;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 class Solution {
     public int[] solution(int n) {
-        Set<Integer> set = new HashSet<>();
+        Set<Integer> set = new LinkedHashSet<>();
         
         for (int i = 2; i <= n; i++) {
             while (n % i == 0) {
@@ -12,7 +12,6 @@ class Solution {
             }
         }
         return set.stream()
-            .sorted()
             .mapToInt(Integer::intValue)
             .toArray();
     }
