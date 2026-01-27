@@ -1,33 +1,27 @@
-import java.util.*;
-
 class Solution {
     public int solution(String skill, String[] skill_trees) {
         int answer = 0;
-        Queue<String> dq = new ArrayDeque<>();
-        
-        String[] skills = skill.split("");
-        
-        for (String s : skill_trees) {
-            String[] sArr = s.split("");
-            
-            dq.clear();
-            
-            for (String s2 : skills) {
-                dq.add(s2);
+
+        for (String tree : skill_trees) {
+            int skillIdx = 0;
+            boolean isValid = true;
+
+            for (int i = 0; i < tree.length(); i++) {
+                char c = tree.charAt(i);
+                int idx = skill.indexOf(c);
+
+                if (idx == -1) continue;
+
+                if (idx == skillIdx) {
+                    skillIdx++;
+                } else {
+                    isValid = false;
+                    break;
+                }
             }
-            
-            for (int i = 0; i < sArr.length; i++) {
-                if (dq.contains(sArr[i])) {
-                    if (dq.peek().equals(sArr[i])) {
-                        dq.poll();
-                    } else {
-                        break;
-                    }
-                }
-                
-                if (i == sArr.length - 1) {
-                    answer++;
-                }
+
+            if (isValid) {
+                answer++;
             }
         }
         return answer;
