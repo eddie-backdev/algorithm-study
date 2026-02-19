@@ -1,17 +1,15 @@
 import java.util.*;
 
 public class Solution {
-    public int[] solution(int[] arr) {
-        int[] temp = new int[arr.length];
+    public int[] solution(int []arr) {
+        Deque<Integer> stack = new ArrayDeque<>();
         
-        int index = 0;
-
-        for (int num : arr) {
-            if (index == 0 || temp[index - 1] != num) {
-                temp[index++] = num;
+        for (int i : arr) {
+            if (stack.isEmpty() || stack.peekLast() != i) {
+                stack.add(i);
             }
         }
 
-        return Arrays.copyOf(temp, index);
+        return stack.stream().mapToInt(i -> i).toArray();
     }
 }
