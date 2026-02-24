@@ -1,45 +1,37 @@
 import java.util.*;
 
 class Solution {
-    
-    int[] dx = {0, 0, -1, 1};
-    int[] dy = {-1, 1, 0, 0};
-    boolean[][] visited;
-    int[][] score;
-
     public int solution(int[][] maps) {
-        visited = new boolean[maps.length][maps[0].length];
-        score = new int[maps.length][maps[0].length];
-        score[0][0] = 1;
-        bfs(maps);
-        if (score[maps.length - 1][maps[0].length - 1] == 0) {
-            return -1;
-        } else {
-            return score[maps.length - 1][maps[0].length - 1];
-        }
-    }
-
-    void bfs(int[][] maps) {
+        int n = maps.length;
+        int m = maps[0].length;
+        
+        int[] dx = {0, 1, 0, -1};
+        int[] dy = {1, 0, -1, 0};
+        
+        int[][] visited = new int[n][m];
         Queue<int[]> q = new ArrayDeque<>();
-        q.offer(new int[]{0, 0});
-        visited[0][0] = true;
-
+        
+        q.add(new int[]{0, 0});
+        visited[0][0] = 1;
+        
         while (!q.isEmpty()) {
-            int[] current = q.poll();
+            int[] cur = q.poll();
+            int x = cur[0];
+            int y = cur[1];
+            
             for (int i = 0; i < 4; i++) {
-                int nx = current[0] + dx[i];
-                int ny = current[1] + dy[i];
-
-                if (nx >= 0 && nx < maps.length && ny >= 0 && ny < maps[0].length) {
-                    if (!visited[nx][ny] && maps[nx][ny] == 1) {
-                        visited[nx][ny] = true;
-                        score[nx][ny] = score[current[0]][current[1]] + 1;
-                        q.offer(new int[]{nx, ny});
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                
+                if (nx >= 0 && nx < n && ny >= 0 && ny < m) {
+                    if (maps[nx][ny] == 1 && visited[nx][ny] == 0) {
+                        visited[nx][ny] = visited[x][y] + 1;
+                        q.add(new int[]{nx, ny});
                     }
                 }
             }
-
         }
+        
+        return visited[n - 1][m - 1] != 0 ? visited[n - 1][m - 1] : -1;
     }
-    
 }
