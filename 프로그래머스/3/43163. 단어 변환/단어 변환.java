@@ -2,44 +2,58 @@ import java.util.*;
 
 class Solution {
     public int solution(String begin, String target, String[] words) {
-        boolean[] visited = new boolean[words.length];
-        Queue<Word> q = new LinkedList<>();
-        q.offer(new Word(begin, 0));
-        while (!q.isEmpty()) {
-            Word current = q.poll();
-            
-            if (current.word.equals(target)) {
-                return current.count;
-            }
-            
-            for (int i = 0; i < words.length; i++) {
-                if (!visited[i] && checkWord(current.word, words[i])) {
-                    visited[i] = true;
-                    q.offer(new Word(words[i], current.count + 1));
-                }
+        int answer = 0;
+        boolean isOk = false;
+
+        for(String word : words) {        
+            if (word.equals(target)) {
+                isOk = true;
+                break;
             }
         }
+        
+        if (!isOk) {
+            return answer;
+        }
+        
+        Queue<String> dq = new ArrayDeque<>();
+        boolean[] visited = new boolean[words.length];
+        dq.offer(begin);
+        while (!dq.isEmpty()) {
+            int size = dq.size();
+            
+            for (int i = 0; i < size; i++) {
+                String cWord = dq.poll();
+                
+                if (cWord.equals(target)) {
+                    return answer;
+                }
+                
+                for (int j = 0; j < words.length; j++) {
+                    if (!visited[j] && checker(cWord, words[j])) {
+                        visited[j] = true;
+                        dq.offer(words[j]);
+                    }
+                }
+            }
+            answer++;
+        }
+        
         return 0;
     }
     
-    public boolean checkWord(String current, String next) {
-        int diff = 0;
-        for (int i = 0; i < current.length(); i++) {
-            if (current.charAt(i) != next.charAt(i)) {
-                diff++;
-            }
-            if (diff > 1) return false;
-        }
-        return diff == 1;
-    }
-    
-    static class Word {
-        String word;
-        int count;
+    boolean checker(String s1, String s2) {
+        int count = 0;
         
-        Word(String word, int count) {
-            this.word = word;
-            this.count = count;
+        for (int i = 0; i < s1.length(); i++) {
+            if (s1.charAt(i) != s2.charAt(i)) {
+                count++;
+            }
+            if (count > 1) {
+                return false;
+            }
         }
+        
+        return count == 1;
     }
 }
