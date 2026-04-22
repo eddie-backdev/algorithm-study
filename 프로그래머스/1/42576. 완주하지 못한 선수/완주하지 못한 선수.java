@@ -1,22 +1,25 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 class Solution {
     public String solution(String[] participant, String[] completion) {
-        Map<String, Integer> map = new HashMap<>();
-
+        String answer = "";
+        HashMap<String, Integer> map = new HashMap<>();
+        
         for (String p : participant) {
-            map.merge(p, 1, Integer::sum);
+            map.put(p, map.getOrDefault(p, 0) + 1);
         }
         
-        for (String c : completion) {
-            map.computeIfPresent(c, (key, value) -> value - 1);
+        for (String p : completion) {
+            map.put(p, map.get(p) - 1);
         }
         
-        return map.entrySet().stream()
-                .filter(entry -> entry.getValue() == 1)
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElse("");
+        for (String key : map.keySet()) {
+            if (map.get(key) != 0) {
+                answer = key;
+                break;
+            }
+        }
+        
+        return answer;
     }
 }
