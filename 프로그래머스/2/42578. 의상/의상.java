@@ -1,20 +1,17 @@
 import java.util.*;
 
-public class Solution {
+class Solution {
     public int solution(String[][] clothes) {
-
         int answer = 1;
-        Map<String, Integer> hm = new HashMap<>();
+        HashMap<String, Integer> map = new HashMap<>();
 
-        for (int i = 0; i < clothes.length; i++) {
-            String key = clothes[i][1];
-            hm.put(key, hm.getOrDefault(key, 0) + 1);
+        for (String[] cloth : clothes) {
+            String category = cloth[1];
+            map.put(category, map.getOrDefault(category, 0) + 1);
         }
 
-        Iterator<Integer> iter = hm.values().iterator();
-
-        while (iter.hasNext()) {
-            answer *= iter.next().intValue() + 1;
+        for (int count : map.values()) {
+            answer *= (count + 1);
         }
 
         return answer - 1;
